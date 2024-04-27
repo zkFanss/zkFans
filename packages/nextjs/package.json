@@ -14,6 +14,7 @@
     "vercel:yolo": "vercel --build-env NEXT_PUBLIC_IGNORE_BUILD_ERROR=true"
   },
   "dependencies": {
+    "@coinbase/wallet-sdk": "^3.7.2",
     "@helia/unixfs": "^3.0.5",
     "@heroicons/react": "~2.0.11",
     "@rainbow-me/rainbowkit": "~2.0.2",
