@@ -1,14 +1,16 @@
 import { unixfs } from "@helia/unixfs";
 import { createHelia } from "helia";
 import { CID } from "multiformats";
+import { Hex } from "viem";
+import cryptographyUtils from "~~/utils/cryptography";
 
 class IPFSClient {
   private static instance: IPFSClient;
-  private contentTable: Map<string, CID>;
+  private contentTable: Map<Hex, CID>;
   private ipfsClientInstance: any;
 
   private constructor() {
-    this.contentTable = new Map<string, CID>();
+    this.contentTable = new Map<Hex, CID>();
     this.initializeInstance();
   }
 
@@ -26,13 +28,13 @@ class IPFSClient {
 
   public async upload(file: File) {
     try {
-      const { name } = file;
+      const hash = await cryptographyUtils.encryptPayload("", file);
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = async () => {
           const buffer = new Uint8Array(reader.result as ArrayBuffer);
           const cid = await this.ipfsClientInstance.addBytes(buffer);
-          this.contentTable.set(name, cid);
+          this.contentTable.set(hash, cid);
           resolve(cid);
         };
         reader.onerror = reject;
@@ -43,9 +45,9 @@ class IPFSClient {
     }
   }
 
-  public async download(fileName: string) {
+  public async download(hashFile: Hex) {
     try {
-      const cid = this.contentTable.get(fileName);
+      const cid = this.contentTable.get(hashFile);
       if (cid) {
         const chunks: Uint8Array[] = [];
         for await (const chunk of this.ipfsClientInstance.cat(cid)) {
@@ -57,7 +59,7 @@ class IPFSClient {
           fileBuffer.set(chunk, offset);
           offset += chunk.length;
         }
-        const file = new File([fileBuffer], fileName);
+        const file = await cryptographyUtils.decryptPayload(hashFile);
         return file;
       }
     } catch (error) {
