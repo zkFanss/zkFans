@@ -10,7 +10,7 @@ const decryptPayload = async (encryptedMessage: Hex) => {
   return payload;
 };
 
-const encryptPayload = async (pubKey: string, payload: File) => {
+const encryptPayload = async <T>(pubKey: string, payload: T) => {
   const buffer = stringToBytes(
     JSON.stringify({
       message: payload,

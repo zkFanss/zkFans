@@ -11,35 +11,28 @@ class IPFSClient {
 
   private constructor() {
     this.contentTable = new Map<Hex, CID>();
-    this.initializeInstance();
   }
 
-  public static getInstance(): IPFSClient {
+  public static async getInstance(): Promise<IPFSClient> {
     if (!IPFSClient.instance) {
       IPFSClient.instance = new IPFSClient();
     }
+    await IPFSClient.instance.initializeInstance();
     return IPFSClient.instance;
   }
 
-  private async initializeInstance() {
+  public async initializeInstance() {
     const helia = await createHelia();
-    this.ipfsClientInstance = unixfs(helia);
+    this.ipfsClientInstance = await unixfs(helia);
   }
 
-  public async upload(file: File) {
+  public async upload(pubKey: Hex, file: File) {
     try {
-      const hash = await cryptographyUtils.encryptPayload("", file);
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-          const buffer = new Uint8Array(reader.result as ArrayBuffer);
-          const cid = await this.ipfsClientInstance.addBytes(buffer);
-          this.contentTable.set(hash, cid);
-          resolve(cid);
-        };
-        reader.onerror = reject;
-        reader.readAsArrayBuffer(file);
-      });
+      const hash = await cryptographyUtils.encryptPayload(pubKey, file);
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const cid = await this.ipfsClientInstance.addBytes(buffer);
+      this.setCidMapping(hash, cid);
+      return hash;
     } catch (error) {
       console.error("{ component: IPFSClient, service: upload }: ", error);
     }
@@ -47,7 +40,8 @@ class IPFSClient {
 
   public async download(hashFile: Hex) {
     try {
-      const cid = this.contentTable.get(hashFile);
+      const cid = this.getMappedCid(hashFile);
+
       if (cid) {
         const chunks: Uint8Array[] = [];
         for await (const chunk of this.ipfsClientInstance.cat(cid)) {
@@ -65,6 +59,14 @@ class IPFSClient {
     } catch (error) {
       console.error("{ component: IPFSClient, service: download }: ", error);
     }
+  }
+
+  private setCidMapping(hash: Hex, cid: CID) {
+    return this.contentTable.set(hash, cid);
+  }
+
+  private getMappedCid(hash: Hex) {
+    return this.contentTable.get(hash);
   }
 }
 
