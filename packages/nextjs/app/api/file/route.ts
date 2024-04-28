@@ -4,6 +4,12 @@ import { HttpCode, HttpMessage } from "~~/types";
 
 export async function POST(req: NextRequest) {
   try {
+    if (!req.formData) {
+      return NextResponse.json({
+        status: HttpCode.NO_CONTENT,
+        message: HttpMessage.NO_CONTENT,
+      });
+    }
     const result = await encryptUploadMiddleware(req);
     return NextResponse.json(result);
   } catch (error) {
