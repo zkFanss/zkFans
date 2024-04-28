@@ -1,65 +1,50 @@
-import { unixfs } from "@helia/unixfs";
-import { createHelia } from "helia";
-import { CID } from "multiformats";
+import pinataSDK from "@pinata/sdk";
+import cryptographyUtils from "~~/utils/cryptography";
 
 class IPFSClient {
   private static instance: IPFSClient;
-  private contentTable: Map<string, CID>;
-  private ipfsClientInstance: any;
+  private pinata;
 
   private constructor() {
-    this.contentTable = new Map<string, CID>();
-    this.initializeInstance();
+    this.pinata = new pinataSDK({ pinataJWTKey: process.env.PINATA_JWT });
   }
 
-  public static getInstance(): IPFSClient {
+  public static async getInstance(): Promise<IPFSClient> {
     if (!IPFSClient.instance) {
       IPFSClient.instance = new IPFSClient();
     }
     return IPFSClient.instance;
   }
-
-  private async initializeInstance() {
-    const helia = await createHelia();
-    this.ipfsClientInstance = unixfs(helia);
-  }
-
-  public async upload(file: File) {
+  public async upload(data: FormData) {
     try {
-      const { name } = file;
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-          const buffer = new Uint8Array(reader.result as ArrayBuffer);
-          const cid = await this.ipfsClientInstance.addBytes(buffer);
-          this.contentTable.set(name, cid);
-          resolve(cid);
-        };
-        reader.onerror = reject;
-        reader.readAsArrayBuffer(file);
-      });
+      const entries = Object.fromEntries(data.entries());
+      const { pubKey, file } = entries;
+      const shortenedPubKey = `${pubKey.slice(0, 4)}...${pubKey.slice(-5)}`;
+      const currentDate = new Date().toISOString();
+      const metadata = {
+        pinataMetadata: {
+          name: `${shortenedPubKey}-${currentDate}.json`,
+        },
+      };
+      const hash = await cryptographyUtils.encryptPayload(file as File);
+      const payload = {
+        hash,
+      };
+      const { IpfsHash } = await this.pinata.pinJSONToIPFS(payload, metadata);
+      return IpfsHash;
     } catch (error) {
       console.error("{ component: IPFSClient, service: upload }: ", error);
     }
   }
 
-  public async download(fileName: string) {
+  public async download(hash: string) {
     try {
-      const cid = this.contentTable.get(fileName);
-      if (cid) {
-        const chunks: Uint8Array[] = [];
-        for await (const chunk of this.ipfsClientInstance.cat(cid)) {
-          chunks.push(chunk);
-        }
-        const fileBuffer = new Uint8Array(chunks.reduce((acc, chunk) => acc + chunk.length, 0));
-        let offset = 0;
-        for (const chunk of chunks) {
-          fileBuffer.set(chunk, offset);
-          offset += chunk.length;
-        }
-        const file = new File([fileBuffer], fileName);
-        return file;
-      }
+      const res = await fetch(`https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${hash}`, {
+        method: "GET",
+      });
+      const payload = await res.json();
+      const file = await cryptographyUtils.decryptPayload(payload);
+      return file;
     } catch (error) {
       console.error("{ component: IPFSClient, service: download }: ", error);
     }
