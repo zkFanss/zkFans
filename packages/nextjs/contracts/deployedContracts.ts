@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     zkFansContract: {
-      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
       abi: [
         {
           type: "constructor",
@@ -47,6 +47,11 @@ const deployedContracts = {
               type: "address",
               internalType: "address payable",
             },
+            {
+              name: "_name",
+              type: "string",
+              internalType: "string",
+            },
           ],
           outputs: [],
           stateMutability: "nonpayable",
@@ -56,7 +61,7 @@ const deployedContracts = {
           name: "getContent",
           inputs: [
             {
-              name: "_address",
+              name: "_addr",
               type: "address",
               internalType: "address",
             },
@@ -77,10 +82,10 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "getProfile",
+          name: "getProfileUserName",
           inputs: [
             {
-              name: "owner",
+              name: "_owner",
               type: "address",
               internalType: "address",
             },
@@ -88,8 +93,8 @@ const deployedContracts = {
           outputs: [
             {
               name: "",
-              type: "address",
-              internalType: "address",
+              type: "string",
+              internalType: "string",
             },
           ],
           stateMutability: "view",
@@ -120,24 +125,6 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "payForContent",
-          inputs: [
-            {
-              name: "owner",
-              type: "address",
-              internalType: "address payable",
-            },
-            {
-              name: "_hash",
-              type: "string",
-              internalType: "string",
-            },
-          ],
-          outputs: [],
-          stateMutability: "payable",
-        },
-        {
-          type: "function",
           name: "revokeSubscription",
           inputs: [
             {
@@ -164,24 +151,6 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "subscribeToContent",
-          inputs: [
-            {
-              name: "_profile",
-              type: "address",
-              internalType: "address payable",
-            },
-            {
-              name: "_hash",
-              type: "string",
-              internalType: "string",
-            },
-          ],
-          outputs: [],
-          stateMutability: "payable",
-        },
-        {
-          type: "function",
           name: "subscribeToProfile",
           inputs: [
             {
@@ -195,14 +164,8 @@ const deployedContracts = {
         },
         {
           type: "event",
-          name: "ContentPaid",
+          name: "ContentAdded",
           inputs: [
-            {
-              name: "buyer",
-              type: "address",
-              indexed: true,
-              internalType: "address",
-            },
             {
               name: "cid",
               type: "string",
@@ -227,25 +190,6 @@ const deployedContracts = {
               type: "address",
               indexed: true,
               internalType: "address",
-            },
-          ],
-          anonymous: false,
-        },
-        {
-          type: "event",
-          name: "SubscribedToContent",
-          inputs: [
-            {
-              name: "subscriber",
-              type: "address",
-              indexed: true,
-              internalType: "address",
-            },
-            {
-              name: "cid",
-              type: "string",
-              indexed: true,
-              internalType: "string",
             },
           ],
           anonymous: false,
