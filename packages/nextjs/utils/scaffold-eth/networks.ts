@@ -39,6 +39,10 @@ export const getAlchemyHttpUrl = (chainId: number) => {
     : undefined;
 };
 
+export const getScrollRpcUrl = (mainnet = false) => {
+  return mainnet ? "https://eth-sepolia-public.unifra.io" : "https://sepolia-rpc.scroll.io/";
+};
+
 export const NETWORKS_EXTRA_DATA: Record<string, ChainAttributes> = {
   [chains.hardhat.id]: {
     color: "#b8af0c",

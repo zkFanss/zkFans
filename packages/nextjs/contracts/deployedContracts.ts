@@ -10,208 +10,101 @@ const deployedContracts = {
       address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
       abi: [
         {
+          inputs: [{ internalType: "address", name: "initialOwner", type: "address" }],
+          stateMutability: "nonpayable",
           type: "constructor",
-          inputs: [
-            {
-              name: "initialOwner",
-              type: "address",
-              internalType: "address",
-            },
-          ],
-          stateMutability: "nonpayable",
         },
         {
-          type: "function",
+          anonymous: false,
+          inputs: [{ indexed: false, internalType: "string", name: "cid", type: "string" }],
+          name: "ContentAdded",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            { indexed: true, internalType: "address", name: "subscriber", type: "address" },
+            { indexed: true, internalType: "address", name: "profile", type: "address" },
+          ],
+          name: "SubscribedTo",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            { indexed: true, internalType: "address", name: "from", type: "address" },
+            { indexed: true, internalType: "address", name: "to", type: "address" },
+          ],
+          name: "SubscriptionRevoked",
+          type: "event",
+        },
+        {
+          inputs: [
+            { internalType: "string", name: "_hash", type: "string" },
+            { internalType: "string", name: "cid", type: "string" },
+          ],
           name: "addContent",
-          inputs: [
-            {
-              name: "_hash",
-              type: "string",
-              internalType: "string",
-            },
-            {
-              name: "cid",
-              type: "string",
-              internalType: "string",
-            },
-          ],
           outputs: [],
           stateMutability: "nonpayable",
+          type: "function",
         },
         {
-          type: "function",
+          inputs: [
+            { internalType: "address payable", name: "_addr", type: "address" },
+            { internalType: "string", name: "_name", type: "string" },
+          ],
           name: "addProfile",
-          inputs: [
-            {
-              name: "_addr",
-              type: "address",
-              internalType: "address payable",
-            },
-            {
-              name: "_name",
-              type: "string",
-              internalType: "string",
-            },
-          ],
           outputs: [],
           stateMutability: "nonpayable",
+          type: "function",
         },
         {
-          type: "function",
+          inputs: [
+            { internalType: "address", name: "_addr", type: "address" },
+            { internalType: "string", name: "_hash", type: "string" },
+          ],
           name: "getContent",
-          inputs: [
-            {
-              name: "_addr",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "_hash",
-              type: "string",
-              internalType: "string",
-            },
-          ],
-          outputs: [
-            {
-              name: "",
-              type: "string",
-              internalType: "string",
-            },
-          ],
+          outputs: [{ internalType: "string", name: "", type: "string" }],
           stateMutability: "view",
+          type: "function",
         },
         {
-          type: "function",
+          inputs: [{ internalType: "address", name: "_owner", type: "address" }],
           name: "getProfileUserName",
-          inputs: [
-            {
-              name: "_owner",
-              type: "address",
-              internalType: "address",
-            },
-          ],
-          outputs: [
-            {
-              name: "",
-              type: "string",
-              internalType: "string",
-            },
-          ],
+          outputs: [{ internalType: "string", name: "", type: "string" }],
           stateMutability: "view",
+          type: "function",
         },
         {
-          type: "function",
+          inputs: [
+            { internalType: "address", name: "owner", type: "address" },
+            { internalType: "address", name: "subscriber", type: "address" },
+          ],
           name: "isSubscribedToProfile",
-          inputs: [
-            {
-              name: "owner",
-              type: "address",
-              internalType: "address",
-            },
-            {
-              name: "subscriber",
-              type: "address",
-              internalType: "address",
-            },
-          ],
-          outputs: [
-            {
-              name: "",
-              type: "bool",
-              internalType: "bool",
-            },
-          ],
+          outputs: [{ internalType: "bool", name: "", type: "bool" }],
           stateMutability: "view",
+          type: "function",
         },
         {
-          type: "function",
+          inputs: [{ internalType: "address", name: "to", type: "address" }],
           name: "revokeSubscription",
-          inputs: [
-            {
-              name: "to",
-              type: "address",
-              internalType: "address",
-            },
-          ],
           outputs: [],
           stateMutability: "nonpayable",
+          type: "function",
         },
         {
-          type: "function",
+          inputs: [{ internalType: "address payable", name: "owner", type: "address" }],
           name: "setProfileOwner",
-          inputs: [
-            {
-              name: "owner",
-              type: "address",
-              internalType: "address payable",
-            },
-          ],
           outputs: [],
           stateMutability: "nonpayable",
+          type: "function",
         },
         {
-          type: "function",
+          inputs: [{ internalType: "address payable", name: "_profile", type: "address" }],
           name: "subscribeToProfile",
-          inputs: [
-            {
-              name: "_profile",
-              type: "address",
-              internalType: "address payable",
-            },
-          ],
           outputs: [],
           stateMutability: "payable",
-        },
-        {
-          type: "event",
-          name: "ContentAdded",
-          inputs: [
-            {
-              name: "cid",
-              type: "string",
-              indexed: false,
-              internalType: "string",
-            },
-          ],
-          anonymous: false,
-        },
-        {
-          type: "event",
-          name: "SubscribedTo",
-          inputs: [
-            {
-              name: "subscriber",
-              type: "address",
-              indexed: true,
-              internalType: "address",
-            },
-            {
-              name: "profile",
-              type: "address",
-              indexed: true,
-              internalType: "address",
-            },
-          ],
-          anonymous: false,
-        },
-        {
-          type: "event",
-          name: "SubscriptionRevoked",
-          inputs: [
-            {
-              name: "from",
-              type: "address",
-              indexed: true,
-              internalType: "address",
-            },
-            {
-              name: "to",
-              type: "address",
-              indexed: true,
-              internalType: "address",
-            },
-          ],
-          anonymous: false,
+          type: "function",
         },
       ],
       inheritedFunctions: {},
