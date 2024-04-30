@@ -61,6 +61,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aztec/bb.js@npm:0.16.0":
+  version: 0.16.0
+  resolution: "@aztec/bb.js@npm:0.16.0"
+  dependencies:
+    comlink: ^4.4.1
+    commander: ^10.0.1
+    debug: ^4.3.4
+    tslib: ^2.4.0
+  bin:
+    bb.js: dest/node/main.js
+  checksum: 5f68b4ad16284a3a871e0ad21fea05aed670383bc639c9d07ab3bf9b7a9d15cc8a4e5cda404a9290775ad5023924739543a8aac37d602892dd1fb5087521970b
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.16.7, @babel/code-frame@npm:^7.23.5":
   version: 7.24.2
   resolution: "@babel/code-frame@npm:7.24.2"
@@ -2414,6 +2428,51 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noir-lang/acvm_js@npm:0.35.0":
+  version: 0.35.0
+  resolution: "@noir-lang/acvm_js@npm:0.35.0"
+  checksum: 0a2209f60242d9dbef31e72b738d70ff802da71f12d4b4f278144d373941f30844c8d041518970e71ba82eb9337cf4cc3a40fbd4b2c50acff45d84d2ee7dd435
+  languageName: node
+  linkType: hard
+
+"@noir-lang/backend_barretenberg@npm:0.19.4":
+  version: 0.19.4
+  resolution: "@noir-lang/backend_barretenberg@npm:0.19.4"
+  dependencies:
+    "@aztec/bb.js": 0.16.0
+    "@noir-lang/types": 0.19.4
+    fflate: ^0.8.0
+  checksum: b84382e71f29f0e10415f8c3a68eb7bb0653f56df1b3e8afd66c22df7adc950fb9016124f32253abad3d05583bccf26b1d0c0cabc601218083fd27d0601a3c02
+  languageName: node
+  linkType: hard
+
+"@noir-lang/noir_js@npm:0.19.4":
+  version: 0.19.4
+  resolution: "@noir-lang/noir_js@npm:0.19.4"
+  dependencies:
+    "@noir-lang/acvm_js": 0.35.0
+    "@noir-lang/noirc_abi": 0.19.4
+    "@noir-lang/types": 0.19.4
+  checksum: 1ee6140019861cee3a27d511951e6b3ed629925a83328b0fbe18791a534c36d26d33ae3ca3aa25252fac8932dfeefedc0d5f07169d5d08f1485d6290965d2491
+  languageName: node
+  linkType: hard
+
+"@noir-lang/noirc_abi@npm:0.19.4":
+  version: 0.19.4
+  resolution: "@noir-lang/noirc_abi@npm:0.19.4"
+  checksum: 7446127935c954ae1b2bfdfa6cf111a9c14a2024f13a2d7e7e0a612319b0b4cc199acdbceaa94168e3bd5d82760b9d2fd2c9eec6677d57ed76e7b666e2b28c7d
+  languageName: node
+  linkType: hard
+
+"@noir-lang/types@npm:0.19.4":
+  version: 0.19.4
+  resolution: "@noir-lang/types@npm:0.19.4"
+  dependencies:
+    "@noir-lang/noirc_abi": 0.19.4
+  checksum: 1d0ce99895c0bc98e9daf67028132f71e30f60b2dc0799ee99f311d917e84459a0d2a37c318f5ab14e594e7dd26f5e612e5fd9a7e0a20a692a7017d7c883bb4d
+  languageName: node
+  linkType: hard
+
 "@npmcli/agent@npm:^2.0.0":
   version: 2.2.2
   resolution: "@npmcli/agent@npm:2.2.2"
@@ -2858,6 +2917,8 @@ __metadata:
     "@coinbase/wallet-sdk": ^3.7.2
     "@helia/unixfs": latest
     "@heroicons/react": ~2.0.11
+    "@noir-lang/backend_barretenberg": 0.19.4
+    "@noir-lang/noir_js": 0.19.4
     "@pinata/sdk": ^2.1.0
     "@rainbow-me/rainbowkit": ~2.0.2
     "@tanstack/react-query": ~5.28.6
@@ -5730,6 +5791,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"comlink@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "comlink@npm:4.4.1"
+  checksum: 16d58a8f590087fc45432e31d6c138308dfd4b75b89aec0b7f7bb97ad33d810381bd2b1e608a1fb2cf05979af9cbfcdcaf1715996d5fcf77aeb013b6da3260af
+  languageName: node
+  linkType: hard
+
 "commander@npm:^10.0.0, commander@npm:^10.0.1":
   version: 10.0.1
   resolution: "commander@npm:10.0.1"
@@ -7528,6 +7596,13 @@ __metadata:
   dependencies:
     pend: ~1.2.0
   checksum: c8585fd5713f4476eb8261150900d2cb7f6ff2d87f8feb306ccc8a1122efd152f1783bdb2b8dc891395744583436bfd8081d8e63ece0ec8687eeefea394d4ff2
+  languageName: node
+  linkType: hard
+
+"fflate@npm:^0.8.0":
+  version: 0.8.2
+  resolution: "fflate@npm:0.8.2"
+  checksum: 29470337b85d3831826758e78f370e15cda3169c5cd4477c9b5eea2402261a74b2975bae816afabe1c15d21d98591e0d30a574f7103aa117bff60756fa3035d4
   languageName: node
   linkType: hard
 
